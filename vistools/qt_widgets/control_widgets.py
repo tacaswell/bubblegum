@@ -106,7 +106,7 @@ class ComboBox(QtGui.QWidget):
         self._cb.setEditText(in_str)
 
 
-class TripleSpinner(QtGui.QGroupBox):
+class TripSpinner(QtGui.QGroupBox):
     """
     A class to wrap up the logic for dealing with a min/max/step
     triple spin box.

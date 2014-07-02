@@ -107,9 +107,15 @@ class AbstractDataView1D(AbstractDataView):
         # loop over the data passed in
         if position is None:
             position = len(self._key_list)
-        for counter, (lbl, x, y) in enumerate(zip(lbl_list, x_list, y_list)):
+        # declare a local counter
+        counter = 0
+        for (lbl, x, y) in zip(lbl_list, x_list, y_list):
             self._data_dict[lbl] = (x, y)
-            self._key_list.insert(position+counter, lbl)
+            key = []
+            # add the key to the list if it does not exist
+            if self._key_list.count(lbl) == 0:
+                self._key_list.insert(position+counter, lbl)
+                counter += 1
 
     def append_data(self, lbl_list, x_list, y_list):
         """

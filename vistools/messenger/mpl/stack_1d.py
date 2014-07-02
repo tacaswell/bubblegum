@@ -86,16 +86,15 @@ class Stack1DMessenger(AbstractMessenger1D, AbstractMPLMessenger):
 
 def make_1D_control_box(title):
     """
-    init docstring
+    Create the control box for the 1-D stack plot widget.
 
     Parameters
     ----------
-    name : str
+    title : str
         Name of the control widget
     """
     self = None
     ctl_box = ControlContainer(title)
-    # make the control widget float
 
     ctl_box.create_pairspinner('x_shift', init_min=0,
                                            init_max=100, init_step=.1)
