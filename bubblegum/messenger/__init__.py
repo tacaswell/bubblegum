@@ -135,8 +135,8 @@ class AbstractMessenger2D(AbstractMessenger):
     def __init__(self, *args, **kwargs):
         super(AbstractMessenger2D, self).__init__(*args, **kwargs)
 
-    @QtCore.Slot(list, list, list)
-    def sl_add_data(self, lbl_list, xy_list, corners_list):
+    @QtCore.Slot(list, list)
+    def sl_add_data(self, lbl_list, img_list):
         """
         Add new datasets
 
@@ -144,42 +144,13 @@ class AbstractMessenger2D(AbstractMessenger):
         ----------
         lbl_list : list
             names of the (x,y) coordinate lists.
-        xy_list : list
+        img_list : list
             list of 2D arrays of image data
-        corners_list : list
-            list of corners that provide information about the relative
-            position of the axes (corners_list is a tuple of 4: x0, y0, x1,
-            y1, where x0,y0 is the lower-left corner and x1,y1 is the
-            upper-right corner
+
         """
-        self._view.add_data(lbl_list=lbl_list, xy_list=xy_list,
-                            corners_list=corners_list)
+        self._view.add_data(lbl_list=lbl_list, img_list=img_list)
         self.sl_update_view()
 
-    @QtCore.Slot(list, list, list, list)
-    def sl_append_data(self, lbl_list, xy_list, axis_list, append_to_end_list):
-        """
-        Append data to the dataset specified by 'lbl'
-
-        Parameters
-        ----------
-        lbl_list : list
-            names of the (x,y) coordinate lists.
-        xy_list : list
-            list of 2D arrays of image data
-        axis : list
-            int
-            axis == 0 is appending in the horizontal direction
-            axis == 1 is appending in the vertical direction
-        append_to_end : list
-            bool
-            if false, prepend to the dataset
-        """
-        self._view.append_data(lbl_list=lbl_list, xy_list=xy_list,
-                               axis_list=axis_list,
-                               append_to_end_list=append_to_end_list)
-        self.sl_update_plot()
-        
     @QtCore.Slot(list, list, list, list)
     def sl_add_datum(self, lbl_list, x_list, y_list, val_list):
         """
@@ -204,6 +175,26 @@ class AbstractMessenger2D(AbstractMessenger):
                                y_list=y_list,
                                val_list=val_list)
         self.sl_update_plot()
+
+    @QtCore.Slot(list, list)
+    def sl_set_data(self, lbl_list, img_list):
+        """
+        Add new datasets
+
+        Parameters
+        ----------
+        lbl_list : list
+            names of the (x,y) coordinate lists.
+        img_list : list
+            list of 2D arrays of image data
+        corners_list : list
+            list of corners that provide information about the relative
+            position of the axes (corners_list is a tuple of 4: x0, y0, x1,
+            y1, where x0,y0 is the lower-left corner and x1,y1 is the
+            upper-right corner
+        """
+        self._view.set_data(lbl_list=lbl_list, img_list=img_list)
+        self.sl_update_view()
 
 
 class AbstractDisplayWidget(QtGui.QWidget):

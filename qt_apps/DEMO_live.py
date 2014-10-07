@@ -40,7 +40,7 @@ from __future__ import (absolute_import, division, print_function,
                         unicode_literals)
 
 import sys
-
+import datetime
 from bubblegum import QtGui, QtCore
 import numpy as np
 
@@ -54,7 +54,7 @@ logger = logging.getLogger(__name__)
 
 
 class FrameSourcerBrownian(QtCore.QObject):
-    new_frame = QtCore.Signal(np.ndarray)
+    new_frame = QtCore.Signal(list, list)
 
     def __init__(self, im_shape, step_scale=1, decay=30,
                  delay=500, parent=None):
@@ -77,7 +77,7 @@ class FrameSourcerBrownian(QtCore.QObject):
         print('fired {}'.format(self._count))
         self._count += 1
         im = self.gen_next_frame()
-        self.new_frame.emit(im)
+        self.new_frame.emit([datetime.datetime.now().isoformat()], [im])
         return True
 
     def gen_next_frame(self):
@@ -128,7 +128,7 @@ class StackExplorer(QtGui.QMainWindow):
         self.setCentralWidget(self._main_window)
 
         self.worker.new_frame.connect(
-            self._main_window._messenger._view._xsection.update_image)
+            self._main_window._messenger.sl_set_data)
         self.thread.start()
 
 
